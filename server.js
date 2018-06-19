@@ -36,9 +36,18 @@ MongoClient.connect("mongodb://localhost:27017", function(err, client, next){
     });
   });
 
+  server.delete("/players/:id", function(req, res){
+    const players = db.collection('playersCollection');
+    const mongoId = MongoId(req.params.id);
+    players.remove({_id: mongoId}, function(err, next){
+      if (err) next(err);
+      req.method = "GET";
+      res.redirect(201, "players");
+    })
+  })
+
   server.delete("/players", function(req, res){
     const players = db.collection('playersCollection');
-
     players.remove({}, function(err, next){
       if(err) next(err);
       req.method = 'GET';
