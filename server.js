@@ -26,7 +26,7 @@ MongoClient.connect("mongodb://localhost:27017", function(err, client, next){
     })
   })
 
-  server.post("/players/:id", function(req, res){
+  server.put("/players/:id", function(req, res){
     const players = db.collection('playersCollection');
     const mongoId = MongoId(req.params.id);
     players.update({_id: mongoId},req.body, function(err, result, next){
@@ -55,7 +55,6 @@ MongoClient.connect("mongodb://localhost:27017", function(err, client, next){
     });
   });
 
-
   server.post("/players", function(req, res){
     const players = db.collection('playersCollection');
     const newPlayer = req.body;
@@ -67,11 +66,8 @@ MongoClient.connect("mongodb://localhost:27017", function(err, client, next){
     })
   })
 
-
-
   server.get("/players",function(req, res){
     const players = db.collection('playersCollection');
-
     players.find().toArray(function(err, allPlayers, next){
       if(err) next(err);
       res.json(201, allPlayers);
